@@ -19,8 +19,15 @@
       <small>{{ post_model.created_on }}</small>
   </div>
   <div class="col-md-4">
-      <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">{{ post_model.author|upper}}</a></span>
-      </div>
+      <span class="author-name">
+          <a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">
+              <small>
+                  {{ post_model.author|title}}
+              </small>
+              <img class="profile-pic" src="{{ post_model.author.profile_pic.url }}" alt="no image found">
+          </a>
+      </span>
+  </div>
   </div><br>
   <p><span class="postarea">{{ post_model.body_original }}</span></p>
 </div>

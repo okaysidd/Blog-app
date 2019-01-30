@@ -21,8 +21,16 @@
               <small>{{ post.created_on }}</small>
           </div>
           <div class="col-md-4">
-              <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">{{ post.author|title }}</a></span>
-              </div>
+              <!-- <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">{{ post.author|title }}</a></span> -->
+              <span class="author-name">
+                  <a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">
+                      <small>
+                          {{ post.author|title }}
+                      </small>
+                      <img class="profile-pic" src="{{ post.author.profile_pic.url }}" alt="no image found">
+                  </a>
+              </span>
+          </div>
           </div><br>
           <p><span class="postarea">{{ post.body_original|truncatechars:700 }}</span>
           {% if post.body_original|length|get_digit:"-1" > 700 %}

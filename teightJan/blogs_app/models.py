@@ -15,7 +15,7 @@ class Post_model(models.Model):
     modified_on = models.DateTimeField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('system:about')
+        return reverse('blogs:post', kwargs={'pk':self.pk})
 
     def __str__(self):
         return self.title_original

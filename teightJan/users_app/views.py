@@ -88,21 +88,14 @@ def updateProfile(request):
 
         display_profile.save()
 
+        return HttpResponseRedirect(reverse('users:view-profile', kwargs={'pk': display_user.pk}))
+
     context = {
-        'title': 'Edit Profile',
-        'user_form': user_form,
-        'profile_form': profile_form,
-        'display_user': display_user,
-        'display_profile' :display_profile,
-        }
+            'title': 'Edit Profile',
+            'user_form': user_form,
+            'profile_form': profile_form,
+            'display_user': display_user,
+            'display_profile' :display_profile,
+            }
 
     return render(request, 'users_app/update_profile.html', context=context)
-
-
-class UpdateProfileView(LoginRequiredMixin, UpdateView):
-    login_url = '/login/'
-    redirect_field_name = 'next'
-    template_name = 'users_app/update_profile.html'
-
-    model = User
-    fields = ['first_name', 'last_name', 'email']

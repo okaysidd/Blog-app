@@ -9,6 +9,9 @@ class Author_model(models.Model):
     git = models.URLField(max_length=128, blank=True)
     profile_pic = models.ImageField(default='default.jpeg', upload_to='profile_pics')
 
+    def get_absolute_url(self):
+        return reverse('users:view-profile', kwargs={'pk':self.pk})
+
     def __str__(self):
         return str(self.author_name)
 

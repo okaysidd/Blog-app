@@ -5,8 +5,11 @@
 <div class="container jumbotron">
     <div class="row">
         <div class="col-md-10">
-          <img src="{{ view_profile.profile_pic.url }}" alt="here">
-            <h4><span class="profile-info">{{ view_profile.author_name.username }}</span></h4>
+            <h4><span class="profile-info">{{ view_profile.author_name.username }}</span>
+            {% if view_profile.author_name == user %}
+            &nbsp<a href="{% url 'users:edit-profile' %}"><i class="fa fa-pencil" style="font-size:20px"></i></a>
+            {% endif %}
+            </h4>
         </div>
         <div class="col-md-2">
           {% if view_profile.author_name == user %}
@@ -26,19 +29,17 @@
             <p><span class="profile-label">name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.first_name }} {{ view_profile.author_name.last_name }}</span></p>
           {% endif %}
         {% endif %}
-          <!-- <p><span class="profile-label">last name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.last_name }}</span></p> -->
-        <!-- <p><span class="profile-label">username: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.username }}</span></p> -->
         <p><span class="profile-label">email address: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.email }}</span></p>
         {% if view_profile.git %}
             <p><span class="profile-label">github profile: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.git }}</p>
         {% endif %}
       </div>
       <div class="col-md-4">
-        <img src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
+        <div class="profile-pic-div">
+            <img class="profile-pic" src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
+        </div>
       </div>
     </div>
-    <!-- <p>{{ view_profile.profile_pic.url }}</p>
-    <p>{{ view_profile.profile_pic }}</p> -->
   </form>
 </div>
 {% endblock %}

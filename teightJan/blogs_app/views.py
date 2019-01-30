@@ -20,7 +20,7 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'next'
 
     model = Post_model
-    fields = ['title_original', 'body_original']
+    fields = ['title_original', 'body_original', 'author']
 
     def form_valid(self, form):
         username=get_object_or_404(Author_model, author_name=self.request.user)
@@ -33,6 +33,8 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create a new blog'
+        profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
+        context['profile_pic'] = profile_pic
         return context
 
 
@@ -61,6 +63,8 @@ class DetailPostView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         author = Author_model.objects.filter(post_model=get_object_or_404(Post_model, id=self.kwargs['pk']))[0].author_name
         context['title'] = 'Post by ' + str(author)
+        profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
+        context['profile_pic'] = profile_pic
         return context
 
 
@@ -71,6 +75,13 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
 
     model = Post_model
     fields = ['title_original', 'body_original']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update blog'
+        profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
+        context['profile_pic'] = profile_pic
+        return context
 
 
 class DeletePostView(LoginRequiredMixin, DeleteView):

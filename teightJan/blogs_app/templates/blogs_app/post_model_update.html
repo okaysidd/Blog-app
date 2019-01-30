@@ -16,7 +16,8 @@
       </div>
       <div class="col-md-3">
         <div class="profile">
-          {{ user.get_username }}
+            <a href="{% url 'users:view-profile' pk=user.pk %}"><img class="profile-pic" src="{{ profile_pic.url }}" alt="No pic found">
+            {{ user.get_username }}</a>
         </div>
       </div>
     </div>
