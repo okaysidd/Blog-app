@@ -1,0 +1,35 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/post_model_list.css' %}">
+<br><br>
+<div class="container">
+    <div class="search-bar">
+        <form class="form-group" action="{% url 'system:about' %}" method="">
+            {% csrf_token %}
+            <input type="text" class="find-post" placeholder="find a post">
+            <input type="submit" class="search-button btn btn-info" value="Search">
+        </form>
+    </div>
+  {% for post in post_model_list %}
+    <div class="post-complete">
+      <br>
+      <div class="row ">
+          <div class="col-md-8">
+              <span class="post-title"><a class="black-href" href="{% url 'blogs:post' pk=post.pk %}">{{ post.title_original }}</a></span>
+              <br>
+              <small>{{ post.created_on }}</small>
+          </div>
+          <div class="col-md-4">
+              <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">{{ post.author|title }}</a></span>
+              </div>
+          </div><br>
+          <p><span class="postarea">{{ post.body_original|truncatechars:700 }}</span>
+          {% if post.body_original|length|get_digit:"-1" > 700 %}
+            <small><a href="{% url 'blogs:post' pk=post.pk %}">see complete post</a></small>
+          {% endif %}
+          </p>
+    </div><br>
+  {% endfor %}
+</div>
+{% endblock %}

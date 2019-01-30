@@ -1,0 +1,25 @@
+.post-complete {
+    background-color: white;
+    padding: 13px;
+    border-radius: 5px;
+}
+body {
+    background-color: #f1f1f1;
+}
+.container {
+  width: 60%;
+}
+.author-name {
+  float: right;
+}
+.post-title {
+  font-family: 'Expletus Sans', cursive;
+  font-size: 1.1em;
+}
+.black-href {
+    color: black;
+}
+.edit-post {
+  width: 20px;
+  height: 17px;
+}

@@ -1,0 +1,39 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'users_app/create_profile.css' %}">
+<div class="container ">
+{% if user.is_authenticated %}
+<br><br>
+<hr class="my-1">
+<br>
+  <h4>Kindly logout before creating a new profile.</h4>
+  <p><a href="{% url 'system:logout' %}">Logout now</a></p>
+{% else %}
+  <div class="row">
+    <img class="letslogo" src="{% static 'system_app/letsblog.JPG' %}" alt="Let's Blog">
+  </div>
+    <hr class="my-4">
+    <br>
+  <div class="row">
+    <div class="col-md-7">
+      <img class="img-fluid" src="{% static 'register.jpg' %}" alt="stock-iphone">
+    </div>
+    <div class="col-md-4">
+      <form autocomplete="off" class="mx-auto form-group" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ user_form.first_name }}<br><br>
+          {{ user_form.last_name }}<br><br>
+          {{ user_form.username }}<br><br>
+          {{ user_form.email }}<br><br>
+          {{ profile_form.git }}<br><br>
+          {{ profile_form.profile_pic }}<br><br>
+          {{ user_form.password }}<br><br>
+          <input class="ml-3 register_form btn btn-primary" type="submit" name="create-profile" value="Create profile">
+      </form>
+      <small>Already have an account? <a href="{% url 'system:login' %}">Login now.</a></small>
+    </div>
+  </div>
+{% endif %}
+</div>
+{% endblock %}

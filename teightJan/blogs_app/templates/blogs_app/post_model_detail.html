@@ -1,0 +1,27 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/post_model_detail.css' %}">
+<br><br>
+<div class="container post-complete">
+<div class="row ">
+  <div class="col-md-8">
+      <span class="post-title">{{ post_model.title_original }}</span>
+      {% if post_model.author.author_name == user %}
+        <select class="edit-post" onchange="location = this.value;">
+          <option value=""></option>
+          <option value="{% url 'blogs:edit-post' pk=post_model.pk %}">Edit Post&nbsp</option>
+          <option value="{% url 'blogs:delete-post' pk=post_model.pk %}">Delete</option>
+        </select>
+      {% else %}
+      {% endif %}
+      <br>
+      <small>{{ post_model.created_on }}</small>
+  </div>
+  <div class="col-md-4">
+      <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">{{ post_model.author|upper}}</a></span>
+      </div>
+  </div><br>
+  <p><span class="postarea">{{ post_model.body_original }}</span></p>
+</div>
+{% endblock %}

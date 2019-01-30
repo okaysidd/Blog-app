@@ -1,0 +1,44 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'users_app/profile.css' %}">
+<div class="container jumbotron">
+    <div class="row">
+        <div class="col-md-10">
+          <img src="{{ view_profile.profile_pic.url }}" alt="here">
+            <h4><span class="profile-info">{{ view_profile.author_name.username }}</span></h4>
+        </div>
+        <div class="col-md-2">
+          {% if view_profile.author_name == user %}
+            <form class="form-group" action="{% url 'system:logout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="logout-btn btn btn-warning" value="Logout">
+            </form>
+          {% endif %}
+        </div>
+    </div>
+  <hr class="my-2">
+  <form class="form-group" method="" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-md-8">
+        {% if view_profile.author_name.first_name %}
+          {% if view_profile.author_name.first_name %}
+            <p><span class="profile-label">name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.first_name }} {{ view_profile.author_name.last_name }}</span></p>
+          {% endif %}
+        {% endif %}
+          <!-- <p><span class="profile-label">last name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.last_name }}</span></p> -->
+        <!-- <p><span class="profile-label">username: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.username }}</span></p> -->
+        <p><span class="profile-label">email address: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.email }}</span></p>
+        {% if view_profile.git %}
+            <p><span class="profile-label">github profile: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.git }}</p>
+        {% endif %}
+      </div>
+      <div class="col-md-4">
+        <img src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
+      </div>
+    </div>
+    <!-- <p>{{ view_profile.profile_pic.url }}</p>
+    <p>{{ view_profile.profile_pic }}</p> -->
+  </form>
+</div>
+{% endblock %}

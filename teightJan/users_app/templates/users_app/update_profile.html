@@ -1,0 +1,33 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'users_app/update_profile.css' %}">
+<br><br><br>
+<div class="container">
+  <form class="form-group" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td><input type="text" name="first_name" value="{{ display_user.first_name }}"></td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td><input type="text" name="last_name" value="{{ display_user.last_name }}"></td>
+        </tr>
+        <tr>
+          <td>Github Link</td>
+          <td><input type="text" name="git" value="{{ display_profile.git }}"></td>
+        </tr>
+        <tr>
+          <td>Profile Picture</td>
+          <td><img src="{{ display_profile.profile_pic.url }}" alt=""><input type="file" accept="image/*" name="profile_pic" value=""></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr class="my-3">
+    <input type="submit" class="btn btn-primary" value="Update">
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'system_app/base.css' %}">
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Expletus+Sans|Krona+One" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {% if user.is_authenticated %}
+    <nav class="fixed-top  navbar navbar-expand-lg navbar-light">
+        <div class="nav-container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a id="nav-link" class="nav-link m-auto" href="{% url 'blogs:new-post' %}">Create blog</a>
+              </li>
+              <a id="center-nav-link" class="navbar-brand" href="{% url 'blogs:all-post' %}"><img class="letslogo" src="{% static 'system_app/letsblog.JPG' %}" alt="Let's Blog"></a>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a id="nav-link" class="nav-link" href="{% url 'system:about' %}">About </a>
+              </li>
+              <li class="nav-item">
+                <a id="nav-link" class="nav-link" href="{% url 'system:contact' %}">Contact Us </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  More
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <!-- <a class="dropdown-item" href="{% url 'system:about' %}">About</a>
+                  <a class="dropdown-item" href="{% url 'system:contact' %}">Contact Us</a> -->
+                  <a class="dropdown-item" href="{% url 'users:view-profile' pk=user.pk %}">{{ user.get_username|title }}</a>
+                  <a class="dropdown-item" href="{% url 'system:logout' %}">Logout</a>
+                  <a target="_blank" class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+      </div>
+    </nav>
+    {% else %}
+      <a href="{% url 'system:login' %}"></a>
+    {% endif %}
+    <br>
+    {% block base_body_block %}
+      <!-- things come here from the pages that inherit this base page -->
+    {% endblock %}
+  </body>
+</html>

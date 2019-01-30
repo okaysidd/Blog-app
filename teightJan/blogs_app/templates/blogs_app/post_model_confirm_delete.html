@@ -1,0 +1,29 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/post_model_confirm_delete.css' %}">
+<br><br>
+<div class="container jumbotron">
+  {% if post_model.author.author_name == user %}
+    <form class="form-group" action="" method="post">
+      {% csrf_token %}
+      <h5>Do you want to delete this post?</h5>
+      <br>
+      <div class="post-title">
+        <div class="row">
+          <div class="col-md-10">
+            <a class="black-href" href="{% url 'blogs:post' pk=post_model.pk %}">{{ post_model.title_original }}</a>
+          </div>
+          <div class="col-md-2">
+            <small>Was written on:<br> {{ post_model.created_on }}</small>
+          </div>
+        </div>
+      </div><br>
+      <p><input type="submit" class="btn btn-danger" value="Yes, delete">&nbsp&nbsp
+      <a class="cancel-delete" href="{% url 'blogs:post' pk=post_model.pk %}">No, take me back.</a></p>
+    </form>
+  {% else %}
+  <h2>Users can only delete post they own.</h2>
+  {% endif %}
+</div>
+{% endblock %}

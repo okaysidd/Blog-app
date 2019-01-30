@@ -1,0 +1,24 @@
+#nav-link {
+  font-size: 1em;
+  color: black;
+}
+#center-nav-link {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Fredoka One', cursive;
+  font-size: 2em;
+}
+.fixed-top {
+    background-color: white;
+}
+.nav-container {
+    width: 70%;
+    margin: auto;
+}
+.letslogo {
+  height: 35px;
+  margin: auto;
+}

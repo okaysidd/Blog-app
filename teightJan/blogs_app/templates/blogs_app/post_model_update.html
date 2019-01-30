@@ -1,0 +1,32 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/post_model_update.css' %}">
+<br><br>
+<hr class="my-1">
+<br>
+<div class="container post-complete">
+  {% if post_model.author.author_name == user %}
+  <form class="form-group"  method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-9">
+        <p><span class="">Title: </span></p>
+        <span class="post-title">{{ form.title_original }}</span><br><br>
+      </div>
+      <div class="col-md-3">
+        <div class="profile">
+          {{ user.get_username }}
+        </div>
+      </div>
+    </div>
+      <p><span class="postarea">Post: </span></p>
+      <p><span class="postarea">{{ form.body_original }}</span></p>
+      <input type="submit" class="btn btn-primary" value="Update">
+    </form>
+    {% else %}
+      <h2>Users can only edit their own posts.</h2>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

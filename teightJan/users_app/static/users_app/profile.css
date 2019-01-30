@@ -1,0 +1,15 @@
+p {
+  text-align: center;
+  /* font-family: 'Krona One', sans-serif; */
+  font-family: 'Expletus Sans', cursive;
+}
+.profile-info {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.profile-label {
+  color:#999999;
+}
+.logout-btn {
+    float: right;
+}

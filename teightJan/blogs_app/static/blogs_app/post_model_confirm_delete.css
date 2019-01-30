@@ -1,0 +1,17 @@
+.post-title {
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 2px;
+  text-align: center;
+  background-color: #f2f2f2;
+}
+.cancel-delete {
+  text-decoration: underline;
+}
+.black-href {
+  font-size: 1.5em;
+  color: black;
+}
+body {
+  background-color: #262626;
+}
