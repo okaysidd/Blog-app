@@ -65,6 +65,9 @@ class DetailPostView(LoginRequiredMixin, DetailView):
         context['title'] = 'Post by ' + str(author)
         profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
         context['profile_pic'] = profile_pic
+        comments = Comment_model.objects.filter(post=self.kwargs['pk']).order_by('-created_on')
+        context['comments'] = comments
+        # print('printing now -- {}'.format(comments))
         return context
 
 

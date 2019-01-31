@@ -30,5 +30,52 @@
   </div>
   </div><br>
   <p><span class="postarea">{{ post_model.body_original }}</span></p>
+    <input id="comments-btn" onclick="display_comments()" type="submit" class="btn btn-primary btn-sm" value="Comment">
 </div>
+<div id="comments-all" class="container">
+  <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-10">
+        <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
+      </div>
+      <div class="col-md-2">
+        <input type="submit" class="btn btn-primary btn-sm" value="Comment">
+      </div>
+    </div>
+  </form>
+</div>
+<div class="comments-list container">
+  {% for comment in comments %}
+  <hr class="my-2">
+  <div class="row">
+    <div class="col-md-2">
+      <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
+        <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
+        <small class="comment-author">{{ comment.author }}</small><br>
+      </a>
+      <small class="comment-time">{{ comment.created_on }}</small>
+    </div>
+    <div class="col-md-10">
+      <span class="font-comment">{{ comment.comment_text }}</span>
+    </div>
+  </div>
+  <br>
+  {% endfor %}
+  <br>
+</div>
+<script type="text/javascript">
+  if ({{ comments|length }}) {
+      document.getElementById('comments-all').style.display = "none";
+      document.getElementById('comments-btn').style.display = "block  ";
+  }
+  else {
+    document.getElementById('comments-all').style.display = "none";
+  }
+  // function to show the comment bar if there was no previous comment
+  function display_comments() {
+    document.getElementById('comments-all').style.display = "block";
+    document.getElementById('comments-btn').style.display = "none";
+  }
+</script>
 {% endblock %}

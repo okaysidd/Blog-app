@@ -1,8 +1,14 @@
 {% extends 'system_app/base.html' %}
 {% block base_body_block %}
 {% load staticfiles %}
+<link rel="stylesheet" href="{% static 'system_app/about.css' %}">
 <br><br>
-  <div class="container jumbotron">
-    About Page
+  <div class="container">
+    <br>
+    <h2>About Let's Blog</h2>
+    <hr class="my-3">
+    <p>This is a little blogging app where users can create account and login, post blogs, comment on other' blogs.</p>
+    <p>We have tonnes of features planned for the future. Keep visiting! :)</p>
+    <br><br>
   </div>
 {% endblock %}

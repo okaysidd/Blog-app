@@ -1,7 +1,15 @@
 {% extends 'system_app/base.html' %}
 {% block base_body_block %}
 {% load staticfiles %}
-  <div class="container jumbotron">
-    Contact Page
+<link rel="stylesheet" href="{% static 'system_app/about.css' %}">
+<br><br>
+  <div class="container">
+    <br>
+    <h2>Contact Us</h2>
+    <hr class="my-3">
+    <p>Email address : <a href="mailto:siddhartha.sehgal94@gmail.com?subject=Just popped to say Hi">siddhartha.sehgal94@gmail.com</a></p>
+    <p>Github link : <a target="_blank" href="https://www.github.com/okaysidd">@okaysidd</a></p>
+    <p>Twitter : <a href="https://www.twitter.com/okaysidd">@okaysidd</a></p>
+    <br><br>
   </div>
 {% endblock %}
