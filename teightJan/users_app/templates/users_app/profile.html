@@ -21,7 +21,6 @@
         </div>
     </div>
   <hr class="my-2">
-  <form class="form-group" method="" enctype="multipart/form-data">
     <div class="row">
       <div class="col-md-8">
         {% if view_profile.author_name.first_name %}
@@ -38,6 +37,17 @@
         <img class="profile-pic" src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
       </div>
     </div>
-  </form>
+</div>
+<div class="container posts-author">
+    {% if posts_by_author %}
+        <h5 class="posts-by">Posts by {{ view_profile.author_name }}</h5>
+        <ul>
+            {% for post in posts_by_author %}
+            <li>
+                <a class="post-link" href="{% url 'blogs:post' pk=post.pk %}">{{ post.title_original }}</a><br>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
 {% endblock %}

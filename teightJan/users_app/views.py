@@ -4,6 +4,7 @@ from .forms import User_form, Profile_form
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView, UpdateView
 from .models import Author_model
+from blogs_app.models import Post_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
@@ -57,7 +58,9 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=self.kwargs['pk']))[0].author_name
+        profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=self.kwargs['pk']))[0]
+        posts_by_author = Post_model.objects.filter(author=profile)
+        context['posts_by_author'] = posts_by_author
         context['title'] = profile
         return context
 

@@ -12,6 +12,7 @@ from .models import Comment_model, Post_model
 from users_app.models import Author_model
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -45,6 +46,7 @@ class ListPostView(LoginRequiredMixin, ListView):
     model = Post_model
     fields = ['title_original', 'body_original', 'author']
     ordering = ['-created_on']
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
