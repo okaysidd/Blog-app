@@ -38,8 +38,8 @@
       </div>
     </div>
 </div>
+{% if posts_by_author %}
 <div class="container posts-author">
-    {% if posts_by_author %}
         <h5 class="posts-by">Posts by {{ view_profile.author_name }}</h5>
         <ul>
             {% for post in posts_by_author %}
@@ -48,6 +48,6 @@
             </li>
             {% endfor %}
         </ul>
-    {% endif %}
 </div>
+{% endif %}
 {% endblock %}

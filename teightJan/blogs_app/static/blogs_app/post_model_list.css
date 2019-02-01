@@ -39,3 +39,6 @@ body {
     border-radius: 50%;
     object-fit: cover;
 }
+.twitter-table {
+  margin-top: 30px;
+}

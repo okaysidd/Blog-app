@@ -13,50 +13,60 @@
     <title>{{ title }}</title>
   </head>
   <body>
-    {% if user.is_authenticated %}
-    <nav class="fixed-top  navbar navbar-expand-lg navbar-light">
-        <div class="nav-container">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a id="nav-link" class="nav-link m-auto" href="{% url 'blogs:new-post' %}">Create blog</a>
-              </li>
-              <a id="center-nav-link" class="navbar-brand" href="{% url 'blogs:all-post' %}"><img class="letslogo" src="{% static 'system_app/letsblog.JPG' %}" alt="Let's Blog"></a>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <a id="nav-link" class="nav-link" href="{% url 'system:about' %}">About </a>
-              </li>
-              <li class="nav-item">
-                <a id="nav-link" class="nav-link" href="{% url 'system:contact' %}">Contact Us </a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" role="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  More
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <!-- <a class="dropdown-item" href="{% url 'system:about' %}">About</a>
-                  <a class="dropdown-item" href="{% url 'system:contact' %}">Contact Us</a> -->
-                  <a class="dropdown-item" href="{% url 'users:view-profile' pk=user.pk %}">{{ user.get_username|title }}</a>
-                  <a class="dropdown-item" href="{% url 'system:logout' %}">Logout</a>
-                  <a target="_blank" class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
-                </div>
-              </li>
-            </ul>
+    <div class="wrapper">
+      {% if user.is_authenticated %}
+      <nav class="fixed-top  navbar navbar-expand-lg navbar-light">
+          <div class="nav-container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a id="nav-link" class="nav-link m-auto" href="{% url 'blogs:new-post' %}">Create blog</a>
+                </li>
+                <a id="center-nav-link" class="navbar-brand" href="{% url 'blogs:all-post' %}"><img class="letslogo" src="{% static 'system_app/letsblog.JPG' %}" alt="Let's Blog"></a>
+              </ul>
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a id="nav-link" class="nav-link" href="{% url 'system:about' %}">About </a>
+                </li>
+                <li class="nav-item">
+                  <a id="nav-link" class="nav-link" href="{% url 'system:contact' %}">Contact Us </a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" role="button" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'users:view-profile' pk=user.pk %}">{{ user.get_username|title }}</a>
+                    <a class="dropdown-item" href="{% url 'system:logout' %}">Logout</a>
+                    <a target="_blank" class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </nav>
+      {% else %}
+        <a href="{% url 'system:login' %}"></a>
+      {% endif %}
+      <br>
+      {% block base_body_block %}
+        <!-- things come here from the pages that inherit this base page -->
+      {% endblock %}
+    </body>
+    <footer>
+      <div class="container">
+        <div class="mt-3 row">
+          <div class="col-md-6">
+            <a class="black-href" target="_blank" href="https://github.com/okaysidd/Blog-app">Read the code at Github <i class="fa fa-github"></i></a>
           </div>
+          <div class="col-md-6">
+            <a class="black-href" href="#">Admin</a>
+          </div>
+        </div>
       </div>
-    </nav>
-    {% else %}
-      <a href="{% url 'system:login' %}"></a>
-    {% endif %}
-    <br>
-    {% block base_body_block %}
-      <!-- things come here from the pages that inherit this base page -->
-    {% endblock %}
-    <!-- <hr class="my-1">
-    <p>footer</p> -->
-  </body>
+    </footer>
+  </div>
 </html>
