@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'system_app',
     'blogs_app',
     'users_app',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,13 +155,25 @@ MEDIA_URL = '/users_app/media/'
 
 MEDIA_ROOT = MEDIA_USERS_DIR
 
-LOGIN_REDIRECT_URL = 'system:contact'
 LOGIN_URL = 'system:login'
+LOGIN_REDIRECT_URL = 'blogs:all-post'
+LOGOUT_REDIRECT_URL = 'system:logout'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_SSL = True
-EMAIL_PORT = 465
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_SSL = True
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1098989196384-1j69h054nu0j5jd1s1bfdar1gkve958i.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'JHUo-qODbvhh9i-rUoFoInNi'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'

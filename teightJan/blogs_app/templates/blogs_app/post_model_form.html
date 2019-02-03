@@ -3,10 +3,10 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'blogs_app/post_model_form.css' %}">
 <br><br>
-<hr class="my-1">
+<!-- <hr class="my-0"> -->
 <br>
 <div class="container post-complete">
-  <form class="form-group"  method="post">
+  <form class="form-group" method="post">
     {% csrf_token %}
     <div class="row">
       <div class="col-md-9">
@@ -22,8 +22,14 @@
     </div>
       <p><span class="postarea">Post: </span></p>
       <p><span class="postarea">{{ form.body_original }}</span></p>
+      <!-- <p><span class="postarea">{{ form.author }}</span></p>
+      <p><span class="postarea">{{ form.title_edited }}</span></p>
+      <p><span class="postarea">{{ form.body_edited }}</span></p>
+      <p><span class="postarea">{{ form.created_on }}</span></p>
+      <p><span class="postarea">{{ form.published_on }}</span></p>
+      <p><span class="postarea">{{ form.modified_on }}</span></p> -->
       <input type="submit" class="btn btn-primary" value="Create">
     </form>
   </div>
-</div>
+<br><br>
 {% endblock %}

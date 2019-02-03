@@ -17,12 +17,19 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+# from django.contrib.auth.views import logout
+
+# def logout_view(request):
+#     logout(request)
+#     # Redirect to a success page.
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('system_app.urls')),
     path('', include('blogs_app.urls')),
     path('', include('users_app.urls')),
+    path('', include('social_django.urls', namespace='social')),
+    # path('logout/', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
 ]
 
 if settings.DEBUG:

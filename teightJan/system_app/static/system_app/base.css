@@ -20,5 +20,29 @@
 }
 .letslogo {
   height: 35px;
+  margin: 10px;
+}
+html, body {
+   height: 100%;
+   margin: 0px;
+}
+.wrapper {
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 1em; /* Height of footer */
+  min-height: 100%;
+}
+footer {
   margin: auto;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  /* background-color: #b3daff; */
+  height: 70px;
+  text-align: center;
+  border-top: 1px solid #bfbfbf;
+}
+.black-href {
+  color: black;
 }

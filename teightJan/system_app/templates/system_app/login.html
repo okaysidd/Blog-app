@@ -26,10 +26,12 @@
           <p><input type="password" name="password" placeholder="enter password"></p>
           <input class="ml-5 btn btn-primary" type="submit" name="submit" value="Login">
         </form>
+        <a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">OR sign up via GoogleOAuth2</a><br>
       <small>Don't have an account? No worries!</small><br>
       <small><a href="{% url 'users:create-profile' %}">Create now in under a minute.</a></small>
       </div>
     </div>
   </div>
 {% endif %}
+<br><br>
 {% endblock %}

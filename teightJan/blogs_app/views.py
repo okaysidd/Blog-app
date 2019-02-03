@@ -13,6 +13,7 @@ from users_app.models import Author_model
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+from django.utils import timezone
 
 
 # Create your views here.
@@ -21,21 +22,27 @@ class CreatePostView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'next'
 
     model = Post_model
-    fields = ['title_original', 'body_original', 'author']
+    fields = ['title_original', 'body_original']
 
     def form_valid(self, form):
         username=get_object_or_404(Author_model, author_name=self.request.user)
-        print('username= {}'.format(username))
-        author = Author_model.objects.filter(author_name=username)[0]
-        print('author= {}'.format(author))
-        form.instance.author = author
+        # print('username= {}'.format(username))
+        if Author_model.objects.filter(author_name=username):
+            if Author_model.objects.filter(author_name=username)[0]:
+                author = Author_model.objects.filter(author_name=username)[0]
+                form.instance.author = author
+        # print('author= {}'.format(author))
+        # form.instance.created_on = timezone.now()
+        # form.instance.modified_on = timezone.now()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Create a new blog'
-        profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
-        context['profile_pic'] = profile_pic
+        if Author_model.objects.filter(author_name=self.request.user):
+            if Author_model.objects.filter(author_name=self.request.user)[0]:
+                profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
+                context['profile_pic'] = profile_pic
         return context
 
 
@@ -45,6 +52,7 @@ class ListPostView(LoginRequiredMixin, ListView):
 
     model = Post_model
     fields = ['title_original', 'body_original', 'author']
+    # ordering = ['-modified_on']
     ordering = ['-created_on']
     paginate_by = 5
 
@@ -87,6 +95,12 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
         profile_pic = Author_model.objects.filter(author_name=self.request.user)[0].profile_pic
         context['profile_pic'] = profile_pic
         return context
+
+    def form_valid(self, form):
+        if not str(form.instance.title_original).endswith('(edited)'):
+            form.instance.title_original = str(form.instance.title_original) + "(edited)"
+        form.instance.modified_on = timezone.now()
+        return super().form_valid(form)
 
 
 class DeletePostView(LoginRequiredMixin, DeleteView):
