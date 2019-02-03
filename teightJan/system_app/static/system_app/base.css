@@ -46,3 +46,29 @@ footer {
 .black-href {
   color: black;
 }
+html, body {
+   height: 100%;
+   margin: 0px;
+}
+footer {
+  height: 50px;
+}
+.wrapper {
+  box-sizing: border-box;
+  position: relative;
+  padding-bottom: 1em; /* Height of footer */
+  min-height: 100%;
+}
+footer {
+  margin: auto;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  background-color: white;
+  height: 70px;
+  text-align: center;
+}
+.black-href {
+  color: black;
+}
