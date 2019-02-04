@@ -12,11 +12,8 @@ class Post_model(models.Model):
     title_edited = models.CharField(max_length=200, default="")
     body_original = models.TextField()
     body_edited = models.TextField(default="")
-<<<<<<< HEAD
     created_on = models.DateTimeField(auto_now_add=True)
-=======
     created_on = models.DateTimeField(default=timezone.now())
->>>>>>> 732d69ea048bf03003bcec39bc412fd81967cbf3
     modified_on = models.DateTimeField(blank=True, null=True)
     published_on = models.DateTimeField(blank=True, null=True)
 

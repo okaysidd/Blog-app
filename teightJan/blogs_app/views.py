@@ -52,13 +52,10 @@ class ListPostView(LoginRequiredMixin, ListView):
 
     model = Post_model
     fields = ['title_original', 'body_original', 'author']
-<<<<<<< HEAD
     # ordering = ['-modified_on']
     ordering = ['-created_on']
-=======
     ordering = ['-modified_on']
     # ordering = ['-created_on']
->>>>>>> 732d69ea048bf03003bcec39bc412fd81967cbf3
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
