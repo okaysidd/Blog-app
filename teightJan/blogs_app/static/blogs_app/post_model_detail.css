@@ -67,25 +67,15 @@ body {
   padding: 13px;
   border-radius: 5px;
 }
-/* .comment-label {
-  -webkit-appearance: tooltip;
-  -moz-appearance: button;
-  display: inline-block;
-  margin: 60px 0 10px 0;
-  cursor: pointer;
-  text-decoration: underline;
-} */
-/* input[type=checkbox] {
-   position: absolute;
-   top: -9999px;
-   left: -9999px;
-} */
-/* .all-comments {
-  display: none;
-} */
-/* input[type=checkbox]:checked ~ .all-comments {
-   display: block;
-   background-color: white;
-   padding: 13px;
-   border-radius: 5px;
-} */
+i {
+    font-family: 'FontAwesome';
+}
+.red-heart {
+    color: red;
+}
+#like {
+    display: inline;
+}
+#liked, #unlike {
+    display: none;
+}

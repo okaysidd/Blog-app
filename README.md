@@ -8,6 +8,7 @@
 - [x] Users can keep their posts in drafts and publish later
 - [x] Users can view the edit history of posts
 - [x] Users can find posts and users from the search bar*
+- [ ] Users can follow other users and can only see post from the people they follow
 - [ ] Upvotes or something of the sort for posts*
 - [ ] Twitter trending topics*
 - [ ] Local weather of the location of user*

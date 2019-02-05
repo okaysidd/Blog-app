@@ -105,48 +105,78 @@
     </div><br>
     <p><span class="postarea">{{ post_model.body_original }}</span></p>
     {% if post_model.published_on %}
-      <input id="comments-btn" onclick="display_comments()" type="submit" class="btn btn-primary btn-sm" value="Comment">
-  </div>
-    <div id="comments-all" class="container">
-      <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
-        {% csrf_token %}
-        <div class="row">
-          <div class="col-md-10">
-            <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
-          </div>
-          <div class="col-md-2">
-            <input type="submit" class="btn btn-primary btn-sm" value="Comment">
-          </div>
+    <small>{{ comments|length }} comment(s)</small>&nbsp
+    <small>{{ post_model.likes }} likes</small>
+    <br><br>
+    <div class="row">
+        <div class="col-md-1">
+            <a id="liked" class="red-heart" href="#"><i class="ml-3 liked-btn fa-2x fas fa-heart"></i></a>
+            <a id="like" class="black-href" href="{% url 'blogs:like-post' pk=post_model.pk %}"><i class="ml-3 like-btn fa-2x far fa-heart"></i></a>
+            <!-- <a id="unlike" class="red-heart" href="#"><i class="ml-3 like-break-btn fa-2x fas fa-heart-broken"></i></a> -->
         </div>
-      </form>
-    </div>
-    <div class="comments-list container">
-      {% for comment in comments %}
-      <hr class="my-2">
-      <div class="row">
         <div class="col-md-2">
-          <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
-            <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
-            <small class="comment-author">{{ comment.author }}</small><br>
-          </a>
-          <small class="comment-time">{{ comment.created_on }}</small>
+            <input id="comments-btn" onclick="display_comments()" type="submit" class="mb-3 btn btn-primary btn-sm" value="Comment">
         </div>
-        <div class="col-md-10">
-          <span class="font-comment">{{ comment.comment_text }}</span>
-        </div>
+    </div>
       </div>
-      <br>
-      {% endfor %}
-      <br>
-  {% else %}
-    <a class="btn btn-info" href="{% url 'blogs:publish-post' pk=post_model.pk %}">Publish</a>
-  {% endif %}
-  {% else %}
-    <h5>Post you're trying to view isn't published yet.</h5>
-  {% endif %}
-</div>
+        <div id="comments-all" class="container">
+          <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-10">
+                <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
+              </div>
+              <div class="col-md-2">
+                <input type="submit" class="btn btn-primary btn-sm" value="Comment">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="comments-list container">
+          {% for comment in comments %}
+          <hr class="my-2">
+          <div class="row">
+            <div class="col-md-2">
+              <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
+                <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
+                <small class="comment-author">{{ comment.author }}</small><br>
+              </a>
+              <small class="comment-time">{{ comment.created_on }}</small>
+            </div>
+            <div class="col-md-10">
+              <span class="font-comment">{{ comment.comment_text }}</span>
+            </div>
+          </div>
+          <br>
+          {% endfor %}
+          <br>
+      {% else %}
+        <a class="btn btn-info" href="{% url 'blogs:publish-post' pk=post_model.pk %}">Publish</a>
+      {% endif %}
+      {% else %}
+        <h5>Post you're trying to view isn't published yet.</h5>
+      {% endif %}
+    </div>
 <br><br>
 <script type="text/javascript">
+    $(document).ready(function(){
+        // $("#liked").mouseover(function(){
+        //     $('#unlike').css("display", "inline");
+        //     $('#liked').css("display", "none");
+        //     });
+        // $("#liked").mouseout(function(){
+        //     $('#unlike').css("display", "none");
+        //     $('#liked').css("display", "inline");
+        // });
+        $("#like").click(function(){
+            $('#like').css("display", "none");
+            $('#liked').css("display", "inline");
+            });
+        $("#liked").click(function(){
+            $('#liked').css("display", "none");
+            $('#like').css("display", "inline");
+        });
+    });
   if ({{ comments|length }}) {
       document.getElementById('comments-all').style.display = "none";
       document.getElementById('comments-btn').style.display = "block  ";
@@ -159,5 +189,6 @@
     document.getElementById('comments-all').style.display = "block";
     document.getElementById('comments-btn').style.display = "none";
   }
+
 </script>
 {% endblock %}
