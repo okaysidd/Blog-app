@@ -77,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -169,11 +171,16 @@ LOGOUT_REDIRECT_URL = 'system:logout'
 
 
 AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1098989196384-1j69h054nu0j5jd1s1bfdar1gkve958i.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'JHUo-qODbvhh9i-rUoFoInNi'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '272802311907-qc6l4a5l5kl5nlp35or7af5hb9h2k3pm.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'KUQKlVTcgToIclWLGUstZyrP'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'

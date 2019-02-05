@@ -4,65 +4,146 @@
 <link rel="stylesheet" href="{% static 'blogs_app/post_model_detail.css' %}">
 <br><br>
 <div class="container post-complete">
-<div class="row ">
-  <div class="col-md-8">
-      <span class="post-title">{{ post_model.title_original }}</span>
-      {% if post_model.author.author_name == user %}
-        <select class="edit-post" onchange="location = this.value;">
-          <option value=""></option>
-          <option value="{% url 'blogs:edit-post' pk=post_model.pk %}">Edit Post&nbsp</option>
-          <option value="{% url 'blogs:delete-post' pk=post_model.pk %}">Delete</option>
-        </select>
-      {% else %}
-      {% endif %}
-      <br>
-      <small>{{ post_model.created_on }}</small>
+{% if not post_model.published_on and post_model.author.author_name == user %}
+  <div class="row ">
+    <div class="col-md-8">
+        <span class="post-title">{{ post_model.title_original }}</span>
+        {% if post_model.author.author_name == user %}
+          <select class="edit-post" onchange="location = this.value;">
+            <option value=""></option>
+            <option value="{% url 'blogs:edit-post' pk=post_model.pk %}">Edit Post&nbsp</option>
+            <option value="{% url 'blogs:delete-post' pk=post_model.pk %}">Delete</option>
+          </select>
+        {% else %}
+        {% endif %}
+        <br>
+        <small>Created on : {{ post_model.created_on }}</small>
+    </div>
+    <div class="col-md-4">
+        <span class="author-name">
+            <a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">
+                <small>
+                    {{ post_model.author|title}}
+                </small>
+                <img class="profile-pic" src="{{ post_model.author.profile_pic.url }}" alt="no image found">
+            </a>
+        </span>
+    </div>
+    </div><br>
+    <p><span class="postarea">{{ post_model.body_original }}</span></p>
+    {% if post_model.published_on %}
+      <input id="comments-btn" onclick="display_comments()" type="submit" class="btn btn-primary btn-sm" value="Comment">
   </div>
-  <div class="col-md-4">
-      <span class="author-name">
-          <a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">
-              <small>
-                  {{ post_model.author|title}}
-              </small>
-              <img class="profile-pic" src="{{ post_model.author.profile_pic.url }}" alt="no image found">
+    <div id="comments-all" class="container">
+      <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-10">
+            <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
+          </div>
+          <div class="col-md-2">
+            <input type="submit" class="btn btn-primary btn-sm" value="Comment">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="comments-list container">
+      {% for comment in comments %}
+      <hr class="my-2">
+      <div class="row">
+        <div class="col-md-2">
+          <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
+            <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
+            <small class="comment-author">{{ comment.author }}</small><br>
           </a>
-      </span>
-  </div>
-  </div><br>
-  <p><span class="postarea">{{ post_model.body_original }}</span></p>
-    <input id="comments-btn" onclick="display_comments()" type="submit" class="btn btn-primary btn-sm" value="Comment">
-</div>
-<div id="comments-all" class="container">
-  <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
-    {% csrf_token %}
-    <div class="row">
-      <div class="col-md-10">
-        <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
+          <small class="comment-time">{{ comment.created_on }}</small>
+        </div>
+        <div class="col-md-10">
+          <span class="font-comment">{{ comment.comment_text }}</span>
+        </div>
       </div>
-      <div class="col-md-2">
-        <input type="submit" class="btn btn-primary btn-sm" value="Comment">
-      </div>
+      <br>
+      {% endfor %}
+      <br>
+  {% else %}
+    <a class="btn btn-info" href="{% url 'blogs:publish-post' pk=post_model.pk %}">Publish</a>
+  {% endif %}
+  {% elif post_model.published_on %}
+  <div class="row ">
+    <div class="col-md-8">
+        <span class="post-title">{{ post_model.title_original }}</span>
+        {% if post_model.author.author_name == user %}
+          <select class="edit-post" onchange="location = this.value;">
+            <option value=""></option>
+            {% if post_model.modified_on %}
+              <option value="{% url 'blogs:history-post' pk=post_model.pk %}">View original version&nbsp</option>
+            {% endif %}
+            <option value="{% url 'blogs:edit-post' pk=post_model.pk %}">Edit Post&nbsp</option>
+            <option value="{% url 'blogs:delete-post' pk=post_model.pk %}">Delete</option>
+          </select>
+        {% else %}
+          {% if post_model.modified_on %}
+          <select class="edit-post" onchange="location = this.value;">
+            <option value=""></option>
+              <option value="{% url 'blogs:history-post' pk=post_model.pk %}">View original version&nbsp</option>
+          </select>
+          {% endif %}
+        {% endif %}
+        <br>
+        <small>{{ post_model.published_on }}</small>
     </div>
-  </form>
-</div>
-<div class="comments-list container">
-  {% for comment in comments %}
-  <hr class="my-2">
-  <div class="row">
-    <div class="col-md-2">
-      <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
-        <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
-        <small class="comment-author">{{ comment.author }}</small><br>
-      </a>
-      <small class="comment-time">{{ comment.created_on }}</small>
+    <div class="col-md-4">
+        <span class="author-name">
+            <a class="black-href" href="{% url 'users:view-profile' pk=post_model.author.pk %}">
+                <small>
+                    {{ post_model.author|title}}
+                </small>
+                <img class="profile-pic" src="{{ post_model.author.profile_pic.url }}" alt="no image found">
+            </a>
+        </span>
     </div>
-    <div class="col-md-10">
-      <span class="font-comment">{{ comment.comment_text }}</span>
-    </div>
+    </div><br>
+    <p><span class="postarea">{{ post_model.body_original }}</span></p>
+    {% if post_model.published_on %}
+      <input id="comments-btn" onclick="display_comments()" type="submit" class="btn btn-primary btn-sm" value="Comment">
   </div>
-  <br>
-  {% endfor %}
-  <br>
+    <div id="comments-all" class="container">
+      <form class="comment-form form-group" action="{% url 'blogs:comment-post' pk=post_model.pk %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-10">
+            <input type="text" name="comment-bar" class="comment-bar" placeholder="Add new comment">
+          </div>
+          <div class="col-md-2">
+            <input type="submit" class="btn btn-primary btn-sm" value="Comment">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="comments-list container">
+      {% for comment in comments %}
+      <hr class="my-2">
+      <div class="row">
+        <div class="col-md-2">
+          <a class="black-href" href="{% url 'users:view-profile' pk=comment.author.pk %}">
+            <img class="comment-profile-pic" src="{{ comment.author.profile_pic.url }}" alt="No image found">
+            <small class="comment-author">{{ comment.author }}</small><br>
+          </a>
+          <small class="comment-time">{{ comment.created_on }}</small>
+        </div>
+        <div class="col-md-10">
+          <span class="font-comment">{{ comment.comment_text }}</span>
+        </div>
+      </div>
+      <br>
+      {% endfor %}
+      <br>
+  {% else %}
+    <a class="btn btn-info" href="{% url 'blogs:publish-post' pk=post_model.pk %}">Publish</a>
+  {% endif %}
+  {% else %}
+    <h5>Post you're trying to view isn't published yet.</h5>
+  {% endif %}
 </div>
 <br><br>
 <script type="text/javascript">

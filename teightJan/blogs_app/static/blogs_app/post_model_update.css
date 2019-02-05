@@ -20,9 +20,9 @@ textarea {
   font-family: 'Expletus Sans', cursive;
   font-size: 1.2em;
 }
-/* .postarea {
-  display: block;
-} */
+.black-href {
+  color: black;
+}
 .col-md-3 {
 }
 .profile {

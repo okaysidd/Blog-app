@@ -1,0 +1,73 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/search_results.css' %}">
+<br><br>
+<div class="container">
+  <div class="search-bar">
+      <form class="form-group" action="{% url 'blogs:search-results' %}" method="POST">
+          {% csrf_token %}
+          <input type="text" name="search-query" class="find-post" value="{{ search_query }}" placeholder="search">
+          <input type="submit" class="search-button btn btn-info" value="Search">
+      </form>
+  </div>
+  {% if search_query %}
+  <h6>Search results for "{{ search_query }}"</h6>
+  {% endif %}
+
+  {% if authors %}
+  <div class="post-complete">
+    Authors:
+    <ul>
+      {% for author in authors %}
+      <li>
+        <a href="{% url 'users:view-profile' pk=author.author_name.pk %}">{{ author }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
+  {% if authors_git %}
+  <div class="post-complete">
+    Git profiles of authors:
+    <ul>
+      {% for author_git in authors_git %}
+      <li>
+        <a href="{% url 'users:view-profile' pk=author_git.author_name.pk %}">{{ author_git.git }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
+  {% if posts_title %}
+  <div class="post-complete">
+    Post titles:
+    <ul>
+      {% for post_title in posts_title %}
+      <li>
+        <a href="{% url 'blogs:post' pk=post_title.pk %}">{{ post_title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
+  {% if posts_body %}
+  <div class="post-complete">
+    Post bodies:
+    <ul>
+      {% for post_body in posts_body %}
+      <li>
+        <a href="{% url 'blogs:post' pk=post_body.pk %}"><span class="title-underline">{{ post_body }}</span><br>
+        <p>{{ post_body.body_original|truncatechars:200 }}</p></a>
+      </li><hr>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
+  <br><br>
+</div>
+{% endblock %}

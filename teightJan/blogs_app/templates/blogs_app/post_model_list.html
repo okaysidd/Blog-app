@@ -5,9 +5,9 @@
 <br><br>
 <div class="container">
     <div class="search-bar">
-        <form class="form-group" action="{% url 'system:about' %}" method="">
+        <form class="form-group" action="{% url 'blogs:search-results' %}" method="POST">
             {% csrf_token %}
-            <input type="text" class="find-post" placeholder="find a post">
+            <input type="text" name="search-query" class="find-post" placeholder="search">
             <input type="submit" class="search-button btn btn-info" value="Search">
         </form>
     </div>

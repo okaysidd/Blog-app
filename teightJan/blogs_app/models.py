@@ -9,7 +9,9 @@ from django.utils import timezone
 class Post_model(models.Model):
     author = models.ForeignKey(Author_model, on_delete=models.CASCADE)
     title_original = models.CharField(max_length=200)
+    # title_original means the title at the current state, that will be visible to users
     title_edited = models.CharField(max_length=200, default="")
+    # title_edited means the history, the title that was saved first time while creating the blog
     body_original = models.TextField()
     body_edited = models.TextField(default="")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -22,6 +24,7 @@ class Post_model(models.Model):
 
     def publish(self):
         self.published_on = timezone.now()
+        self.save()
 
     def __str__(self):
         return self.title_original

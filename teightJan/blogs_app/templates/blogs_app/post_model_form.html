@@ -15,19 +15,14 @@
       </div>
       <div class="col-md-3">
         <div class="profile">
-            <a href="{% url 'users:view-profile' pk=user.pk %}"><img class="profile-pic" src="{{ profile_pic.url }}" alt="No pic found">
+            <a class="black-href" href="{% url 'users:view-profile' pk=user.pk %}"><img class="profile-pic" src="{{ profile_pic.url }}" alt="No pic found">
             {{ user.get_username }}</a>
         </div>
       </div>
     </div>
       <p><span class="postarea">Post: </span></p>
       <p><span class="postarea">{{ form.body_original }}</span></p>
-      <!-- <p><span class="postarea">{{ form.author }}</span></p>
-      <p><span class="postarea">{{ form.title_edited }}</span></p>
-      <p><span class="postarea">{{ form.body_edited }}</span></p>
-      <p><span class="postarea">{{ form.created_on }}</span></p>
-      <p><span class="postarea">{{ form.published_on }}</span></p>
-      <p><span class="postarea">{{ form.modified_on }}</span></p> -->
+
       <input type="submit" class="btn btn-primary" value="Create">
     </form>
   </div>

@@ -2,52 +2,77 @@
 {% block base_body_block %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'users_app/profile.css' %}">
+{% if profile == 'not found' %}
 <div class="container jumbotron">
-    <div class="row">
-        <div class="col-md-10">
-            <h4><span class="profile-info">{{ view_profile.author_name.username }}</span>
+  <h5>work now</h5>
+</div>
+{% else %}
+  <div class="container jumbotron">
+      <div class="row">
+          <div class="col-md-10">
+              <h4><span class="profile-info">{{ view_profile.author_name.username }}</span>
+              {% if view_profile.author_name == user %}
+              &nbsp<a href="{% url 'users:edit-profile' %}"><i class="fa fa-pencil" style="font-size:20px"></i></a>
+              {% endif %}
+              </h4>
+          </div>
+          <div class="col-md-2">
             {% if view_profile.author_name == user %}
-            &nbsp<a href="{% url 'users:edit-profile' %}"><i class="fa fa-pencil" style="font-size:20px"></i></a>
+              <form class="form-group" action="{% url 'system:logout' %}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" class="logout-btn btn btn-warning" value="Logout">
+              </form>
             {% endif %}
-            </h4>
-        </div>
-        <div class="col-md-2">
-          {% if view_profile.author_name == user %}
-            <form class="form-group" action="{% url 'system:logout' %}" method="post">
-                {% csrf_token %}
-                <input type="submit" class="logout-btn btn btn-warning" value="Logout">
-            </form>
-          {% endif %}
-        </div>
-    </div>
-  <hr class="my-2">
-    <div class="row">
-      <div class="col-md-8">
-        {% if view_profile.author_name.first_name %}
+          </div>
+      </div>
+    <hr class="my-2">
+      <div class="row">
+        <div class="col-md-8">
           {% if view_profile.author_name.first_name %}
-            <p><span class="profile-label">name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.first_name }} {{ view_profile.author_name.last_name }}</span></p>
+            {% if view_profile.author_name.first_name %}
+              <p><span class="profile-label">name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.first_name }} {{ view_profile.author_name.last_name }}</span></p>
+            {% endif %}
           {% endif %}
-        {% endif %}
-        <p><span class="profile-label">email address: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.email }}</span></p>
-        {% if view_profile.git %}
-            <p><span class="profile-label">github profile: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.git }}</p>
-        {% endif %}
+          <p><span class="profile-label">email address: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.email }}</span></p>
+          {% if view_profile.git %}
+              <p><span class="profile-label">github profile: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.git }}</p>
+          {% endif %}
+        </div>
+        <div class="col-md-4">
+          <img class="profile-pic" src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
+        </div>
       </div>
-      <div class="col-md-4">
-        <img class="profile-pic" src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
-      </div>
-    </div>
-</div>
-{% if posts_by_author %}
-<div class="container posts-author">
+  </div>
+  {% if posts_by_author %}
+  <div class="container posts-author">
+      {% if view_profile.author_name == user %}
+        <h5 class="posts-by">Posts by you</h5>
+      {% else %}
         <h5 class="posts-by">Posts by {{ view_profile.author_name }}</h5>
-        <ul>
-            {% for post in posts_by_author %}
-            <li>
-                <a class="post-link" href="{% url 'blogs:post' pk=post.pk %}">{{ post.title_original }}</a><br>
-            </li>
-            {% endfor %}
-        </ul>
-</div>
+      {% endif %}
+      <ul>
+          {% for post in posts_by_author %}
+          <li>
+              <a class="post-link" href="{% url 'blogs:post' pk=post.pk %}">{{ post.title_original }}</a><br>
+          </li>
+          {% endfor %}
+      </ul>
+  {% endif %}
+  {% if posts_to_publish %}
+  <div class="container posts-author">
+      {% if view_profile.author_name == user %}
+        <h5 class="posts-by">Posts to publish</h5>
+      <ul>
+          {% for post in posts_to_publish %}
+          <li>
+              <a class="post-link" href="{% url 'blogs:post' pk=post.pk %}">{{ post.title_original }}</a><br>
+          </li>
+          {% endfor %}
+      {% endif %}
+      </ul>
+    </div>
+  </div>
+  <br><br>
+  {% endif %}
 {% endif %}
 {% endblock %}

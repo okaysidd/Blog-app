@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, HttpResponseRedirect, HttpResponse, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -24,9 +24,11 @@ def user_login(request):
                 # return HttpResponseRedirect(reverse('users:view-profile', kwargs={'pk':user.pk}))
                 return HttpResponseRedirect(reverse('blogs:all-post'))
             else:
-                return HttpResponse("<h2>This user is not active</h2>")
+                # return HttpResponse("<h2>This user is not active</h2>")
+                return redirect('system_app/login_failed.html', context={'title':'Login', 'data':'inactive'})
         else:
-            return HttpResponse("<h2>Invalid username/password</h2>")
+            # return HttpResponse("<h2>Invalid username/password</h2>")
+            return render(request, 'system_app/login_failed.html', context={'title':'Login', 'data':'incorrect'})
 
     return render(request, 'system_app/login.html', context={'title': 'Login'})
 

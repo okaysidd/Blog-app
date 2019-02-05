@@ -35,3 +35,9 @@ textarea {
     width: 100px;
     height: 100px;
 }
+.create-publish {
+  width: 160px;
+}
+.black-href {
+  color: black;
+}

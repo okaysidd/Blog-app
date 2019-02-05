@@ -1,0 +1,47 @@
+small {
+  /* float: right; */
+}
+.container {
+  width: 60%;
+}
+.post-title {
+  font-family: 'Expletus Sans', cursive;
+  font-size: 1.1em;
+  text-decoration: underline;
+}
+.author-name {
+  float: right;
+}
+.post-complete {
+    background-color: white;
+    padding: 13px;
+    border-radius: 5px;
+}
+body {
+    background-color: #f1f1f1;
+}
+.find-post {
+    width: 90%;
+    height: 38px;
+}
+.search-bar {
+    margin: 15px;
+}
+.search-button {
+    float: right;
+}
+.black-href {
+    color: black;
+}
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.twitter-table {
+  margin-top: 30px;
+}
+.title-underline {
+  text-decoration: underline;
+}

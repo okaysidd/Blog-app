@@ -1,0 +1,68 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'users_app/create_social_profile.css' %}">
+<br><br><br>
+<div class="container">
+  <form class="form-group" action="{% url 'users:edit-social-profile' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h6><span class="red">Complete your profile here.</span></h6>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>First Name</td>
+          <td class="user-info"><input class="input-profile" type="text" name="first_name" value="{{ profile.first_name }}"></td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td class="user-info"><input class="input-profile" type="text" name="last_name" value="{{ profile.last_name }}"></td>
+        </tr>
+        <tr>
+          <td>Email Id</td>
+          <td class="user-info"><i class="help-display-email fa fa-question-circle"></i>&nbsp<span class="input-profile email-unchanged" name="email">{{ profile.email }}</span>
+          <small class="input-profile help-info-email" name="">This is the information we got from your social profile.</small></td>
+        </tr>
+        <tr>
+          <td>Username</td>
+          <td class="user-info"><i class="help-display-username fa fa-question-circle"></i>&nbsp<span class="input-profile username-unchanged" name="username">{{ profile.username }}</span>
+          <small class="input-profile help-info-username" name="">This is the information we got from your social profile.</small></td>
+        </tr>
+        <tr>
+          <td>Github Link</td>
+          <td class="user-info"><input class="input-profile" type="text" name="git" value="{{ display_profile.git }}"></td>
+        </tr>
+        <tr>
+          <td>Profile Picture</td>
+          <td class="user-info">
+              <img class="profile-pic" src="{{ display_profile.profile_pic.url }}" alt="">
+            <br><br>
+            <input type="file" accept="image/*" name="profile_pic" value="">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr class="my-3">
+    <input type="submit" class="btn btn-primary" value="Complete profile">
+  </form>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".help-display-email").hover(function(){
+      $('.email-unchanged').css("display", "none");
+      $('.help-info-email').css("display", "inline");
+      });
+    $(".help-display-email").mouseout(function(){
+      $('.help-info-email').css("display", "none");
+      $('.email-unchanged').css("display", "inline");
+    });
+    $(".help-display-username").hover(function(){
+      $('.username-unchanged').css("display", "none");
+      $('.help-info-username').css("display", "inline");
+      });
+    $(".help-display-username").mouseout(function(){
+      $('.help-info-username').css("display", "none");
+      $('.username-unchanged').css("display", "inline");
+    });
+  });
+</script>
+{% endblock %}

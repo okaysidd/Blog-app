@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from .forms import User_form, Profile_form
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,7 @@ from .models import Author_model
 from blogs_app.models import Post_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # Create your views here.
@@ -58,18 +59,45 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=self.kwargs['pk']))[0]
-        posts_by_author = Post_model.objects.filter(author=profile)
-        context['posts_by_author'] = posts_by_author
+        if Author_model.objects.filter(author_name=get_object_or_404(User, id=self.kwargs['pk'])):
+            profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=self.kwargs['pk']))[0]
+            posts_to_publish = Post_model.objects.filter(author=profile, published_on=None)
+            posts_by_author = Post_model.objects.filter(author=profile, published_on__lte=timezone.now())
+            context['posts_by_author'] = posts_by_author
+            context['posts_to_publish'] = posts_to_publish
+        else:
+            context['profile'] = 'not found'
         context['title'] = profile
         return context
+
+
+def profileView(request, pk):
+    context = {}
+    if Author_model.objects.filter(author_name=get_object_or_404(User, id=pk)):
+        profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=pk))[0]
+        posts_to_publish = Post_model.objects.filter(author=profile, published_on=None)
+        posts_by_author = Post_model.objects.filter(author=profile, published_on__lte=timezone.now())
+        context['posts_by_author'] = posts_by_author
+        context['posts_to_publish'] = posts_to_publish
+        context['title'] = profile
+        context['view_profile'] = profile
+
+        return render(request, 'users_app/profile.html', context=context)
+    else:
+        profile = User.objects.filter(username=request.user.username)[0]
+        context['profile'] = profile
+        return render(request, 'users_app/create_social_profile.html', context=context)
+
+
 
 @login_required
 def updateProfile(request):
     user_form = User_form()
     profile_form = Profile_form()
     display_user = User.objects.filter(username=request.user.username)[0]
-    display_profile = Author_model.objects.filter(author_name=get_object_or_404(User, username=request.user.username))[0]
+    display_profile = ""
+    if Author_model.objects.filter(author_name=get_object_or_404(User, username=request.user.username)):
+        display_profile = Author_model.objects.filter(author_name=get_object_or_404(User, username=request.user.username))[0]
 
     if request.method == "POST":
         user_form = User_form(request.POST)
@@ -102,3 +130,28 @@ def updateProfile(request):
             }
 
     return render(request, 'users_app/update_profile.html', context=context)
+
+
+def create_social_profile(request):
+    user_profile = User.objects.filter(username=request.user.username)[0]
+    if request.method == "POST":
+        if request.POST.get('first_name'):
+            user_profile.first_name = request.POST.get('first_name')
+        if request.POST.get('last_name'):
+            user_profile.last_name = request.POST.get('last_name')
+
+        user_profile.save()
+
+        author = Author_model(
+                            author_name = user_profile,
+                            )
+
+        if request.POST.get('git'):
+            author.git = request.POST.get('git')
+
+        if 'profile_pic' in request.FILES:
+            author.profile_pic = request.FILES['profile_pic']
+
+        author.save()
+
+        return redirect('users:view-profile', pk=request.user.pk)

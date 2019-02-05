@@ -1,0 +1,20 @@
+{% extends 'system_app/base.html' %}
+{% block base_body_block %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'blogs_app/post_history.css' %}">
+<br><br>
+<div class="container post-complete">
+  <div class="row">
+    <div class="col-md-6">
+      <p class="underline">Title originally</p> <span class="post-title">{{ post_model.title_edited }}</span><hr>
+      <p class="underline">Post originally</p> <span class="">{{ post_model.body_edited }}</span>
+    </div>
+    <div class="col-md-6">
+      <p class="underline">Title as of today</p> <span class="post-title">{{ post_model.title_original }}</span><hr>
+      <p class="underline">Post as of today</p> <span class="">{{ post_model.body_original }}</span>
+    </div>
+  </div>
+</div>
+<br><br>
+<br><br>
+{% endblock %}
