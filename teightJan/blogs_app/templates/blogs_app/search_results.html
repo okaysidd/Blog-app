@@ -17,7 +17,7 @@
 
   {% if authors %}
   <div class="post-complete">
-    Authors:
+    <strong>Authors usernames:</strong>
     <ul>
       {% for author in authors %}
       <li>
@@ -28,9 +28,45 @@
   </div><br>
   {% endif %}
 
+  {% if authors_f_name %}
+  <div class="post-complete">
+    <strong>Authors' first names:</strong>
+    <ul>
+      {% for author_f_name in authors_f_name %}
+      <li>
+        <a href="{% url 'users:view-profile' pk=author_f_name.author_name.pk %}">
+          <span class="title-underline">{{ author_f_name.author_name.first_name }} ({{ author_f_name.author_name }})</span><br>
+          <p>
+            {{ author_f_name.firstname }}
+          </p>
+        </a>
+      </li><hr>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
+  {% if authors_l_name %}
+  <div class="post-complete">
+    <strong>Authors' last names:</strong>
+    <ul>
+      {% for author_l_name in authors_l_name %}
+      <li>
+        <a href="{% url 'users:view-profile' pk=author_l_name.author_name.pk %}">
+          <span class="title-underline">{{ author_l_name.author_name.last_name }} ({{ author_l_name.author_name }})</span><br>
+          <p>
+            {{ author_l_name.lastname }}
+          </p>
+        </a>
+      </li><hr>
+      {% endfor %}
+    </ul>
+  </div><br>
+  {% endif %}
+
   {% if authors_git %}
   <div class="post-complete">
-    Git profiles of authors:
+    <strong>Git profiles of authors:</strong>
     <ul>
       {% for author_git in authors_git %}
       <li>
@@ -43,7 +79,7 @@
 
   {% if posts_title %}
   <div class="post-complete">
-    Post titles:
+    <strong>Post titles:</strong>
     <ul>
       {% for post_title in posts_title %}
       <li>
@@ -56,7 +92,7 @@
 
   {% if posts_body %}
   <div class="post-complete">
-    Post bodies:
+    <strong>Post bodies:</strong>
     <ul>
       {% for post_body in posts_body %}
       <li>

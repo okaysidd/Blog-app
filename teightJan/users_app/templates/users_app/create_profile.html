@@ -29,11 +29,16 @@
           {{ profile_form.git }}<br><br>
           {{ profile_form.profile_pic }}<br><br>
           {{ user_form.password }}<br><br>
-          <input class="ml-3 register_form btn btn-primary" type="submit" name="create-profile" value="Create profile">
+          <input class="register_form btn btn-primary" type="submit" name="create-profile" value="Create profile">&nbsp&nbsp
+          <strong>or</strong>&nbsp&nbsp
+          <a class="" href="{% url 'social:begin' 'google-oauth2' %}">
+            <img src="{% static 'system_app/google.png' %}" width="25" alt="google">
+          </a>
       </form>
+      <hr>
       <small>Already have an account? <a href="{% url 'system:login' %}">Login now.</a></small>
     </div>
   </div>
 {% endif %}
-</div>
+</div><br><br><br>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block base_body_block %}
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'system_app/login.css' %}">
-<div class="container ">
+<div class="container">
 {% if user.is_authenticated %}
 <br><br>
 <hr class="my-1">
@@ -20,20 +20,19 @@
         <img class="img-fluid" src="{% static 'system_app/login.png' %}" alt="stock-iphone">
       </div>
       <div class="col-md-4">
-        <!-- {% if data == incorrect %}
-          <small>User not found, or incorrect credentials entered. Try again?</small>
-        {% elif data == inactive %}
-          <small>This user is not activated.</small>
-        {% endif %} -->
+
         <form class="login-form form-group" action="" method="post">
           {% csrf_token %}
           <legend><small>Username and password</small></legend>
           <p><input type="text" name="username" placeholder="enter username"></p>
           <p><input type="password" name="password" placeholder="enter password"></p>
-          <input class="ml-5 btn btn-primary" type="submit" name="submit" value="Login"><br><br>
-          <a class="" href="{% url 'social:begin' 'google-oauth2' %}"><small>OR sign up via GoogleOAuth2</small></a><br><br><br><br>
+          <input class="btn btn-primary" type="submit" name="submit" value="Login">&nbsp&nbsp <strong>or</strong>&nbsp&nbsp
+          <a class="" href="{% url 'social:begin' 'google-oauth2' %}">
+            <img src="{% static 'system_app/google.png' %}" width="25" alt="google"></a>
+          <br>
         </form>
-        
+        <hr>
+
       <small>Don't have an account? No worries!</small><br>
       <small><a href="{% url 'users:create-profile' %}">Create now in under a minute.</a></small>
       </div>

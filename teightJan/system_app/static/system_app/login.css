@@ -5,6 +5,9 @@
   height: 35px;
   margin: auto;
 }
-.fail {
-  
+.container {
+  width: 80%;
+}
+.underline {
+  text-decoration: underline;
 }

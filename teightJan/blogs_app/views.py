@@ -27,14 +27,10 @@ class CreatePostView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         username=get_object_or_404(Author_model, author_name=self.request.user)
-        # print('username= {}'.format(username))
         if Author_model.objects.filter(author_name=username):
             if Author_model.objects.filter(author_name=username)[0]:
                 author = Author_model.objects.filter(author_name=username)[0]
                 form.instance.author = author
-        # print('author= {}'.format(author))
-        # form.instance.created_on = timezone.now()
-        # form.instance.modified_on = timezone.now()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -54,8 +50,6 @@ class ListPostView(LoginRequiredMixin, ListView):
     model = Post_model
     fields = ['title_original', 'body_original', 'author']
 
-    # ordering = ['-created_on']
-    # ordering = ['-modified_on']
     ordering = ['-published_on']
     paginate_by = 5
 
@@ -63,6 +57,10 @@ class ListPostView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Let\'s Blog'
         return context
+
+    def get_queryset(self):
+        queryset = Post_model.objects.filter(published_on__lte=timezone.now()).order_by('-published_on')
+        return queryset
 
 
 class DetailPostView(LoginRequiredMixin, DetailView):
@@ -78,7 +76,6 @@ class DetailPostView(LoginRequiredMixin, DetailView):
         context['title'] = 'Post by ' + str(author)
         comments = Comment_model.objects.filter(post=self.kwargs['pk']).order_by('-created_on')
         context['comments'] = comments
-        # print('printing now -- {}'.format(comments))
         return context
 
 
@@ -103,9 +100,7 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
                 form.instance.title_edited = Post_model.objects.filter(pk=self.kwargs['pk'])[0].title_original
                 form.instance.title_original = str(form.instance.title_original) + "(edited)"
                 form.instance.body_edited = Post_model.objects.filter(pk=self.kwargs['pk'])[0].body_original
-                # if not str(form.instance.title_original).endswith('(edited)'):
             form.instance.modified_on = timezone.now()
-        # print('-------print------- {}'.format(type(form.changed_data[0])))
         return super().form_valid(form)
 
 
@@ -139,13 +134,14 @@ class DetailPostHistoryView(LoginRequiredMixin, DetailView):
         context['profile_pic'] = profile_pic
         comments = Comment_model.objects.filter(post=self.kwargs['pk']).order_by('-created_on')
         context['comments'] = comments
-        # print('printing now -- {}'.format(comments))
         return context
 
 
 def searchResults(request):
     search_query = ""
     authors = ""
+    authors_f_name = ""
+    authors_l_name = ""
     authors_git = ""
     posts_title = ""
     posts_body = ""
@@ -154,11 +150,13 @@ def searchResults(request):
         if request.POST.get('search-query'):
             search_query = request.POST.get('search-query')
             if search_query:
+                authors_f_name = Author_model.objects.filter(author_name__first_name__icontains=search_query)
+                authors_l_name = Author_model.objects.filter(author_name__last_name__icontains=search_query)
                 authors = Author_model.objects.filter(author_name__username__icontains=search_query)
                 authors_git = Author_model.objects.filter(git__icontains=search_query)
 
-                posts_title = Post_model.objects.filter(title_original__icontains=search_query)
-                posts_body = Post_model.objects.filter(body_original__icontains=search_query)
+                posts_title = Post_model.objects.filter(title_original__icontains=search_query, published_on__lte=timezone.now())
+                posts_body = Post_model.objects.filter(body_original__icontains=search_query, published_on__lte=timezone.now())
     context = {
             'title': 'Search results for '+search_query ,
             'search_query': search_query,
@@ -166,5 +164,7 @@ def searchResults(request):
             'authors_git': authors_git,
             'posts_title': posts_title,
             'posts_body': posts_body,
+            'authors_f_name': authors_f_name,
+            'authors_l_name': authors_l_name,
             }
     return render(request, 'blogs_app/search_results.html', context=context)
