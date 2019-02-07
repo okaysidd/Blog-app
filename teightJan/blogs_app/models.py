@@ -18,12 +18,17 @@ class Post_model(models.Model):
     created_on = models.DateTimeField(default=timezone.now())
     modified_on = models.DateTimeField(blank=True, null=True)
     published_on = models.DateTimeField(blank=True, null=True)
+    likes = models.PositiveIntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('blogs:post', kwargs={'pk':self.pk})
 
     def publish(self):
         self.published_on = timezone.now()
+        self.save()
+
+    def like_post(self):
+        self.likes += 1
         self.save()
 
     def __str__(self):

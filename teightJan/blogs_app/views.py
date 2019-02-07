@@ -124,7 +124,7 @@ class DetailPostHistoryView(LoginRequiredMixin, DetailView):
 
     model = Post_model
     template_name = 'blogs_app/post_history.html'
-    fields = ['title_original', 'body_original', 'created_on', 'author', 'published_on', 'title_edited', 'body_edited']
+    fields = ['title_original', 'body_original', 'created_on', 'author', 'published_on', 'title_edited', 'body_edited', 'likes']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -168,3 +168,9 @@ def searchResults(request):
             'authors_l_name': authors_l_name,
             }
     return render(request, 'blogs_app/search_results.html', context=context)
+
+
+def like_post(request, pk):
+    post = get_object_or_404(Post_model, pk=pk)
+    post.like_post()
+    return redirect('blogs:post', pk=pk)

@@ -42,3 +42,6 @@ body {
 .twitter-table {
   margin-top: 30px;
 }
+textarea {
+  white-space: pre-wrap;
+}

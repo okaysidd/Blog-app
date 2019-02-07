@@ -12,6 +12,7 @@
 }
 textarea {
   width: 90%;
+  white-space: pre-wrap;
 }
 #id_body_original {
   border-radius: 2px;
