@@ -33,7 +33,7 @@
           </div>
           </div><br>
           <p><span class="postarea">{{ post.body_original|truncatechars:700|linebreaks }}</span>
-          {% if post.body_original|length|get_digit:"-1" > 700 %}
+          {% if post.body_original|length|get_digit:"-1" > 600 %}
             <small><a href="{% url 'blogs:post' pk=post.pk %}">see complete post</a></small>
           {% endif %}
           </p>

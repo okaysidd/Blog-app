@@ -42,17 +42,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'system_app',
-    'blogs_app',
-    'users_app',
-    'social_django',
-    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+    'social_django',
+    'crispy_forms',
+    'system_app',
+    'blogs_app',
+    'users_app',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'teightJan.urls'
@@ -177,7 +179,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     # 'social_core.backends.github.GithubOAuth2',
     # 'social_core.backends.facebook.FacebookOAuth2',
-
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -185,3 +186,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '272802311907-qc6l4a5l5kl5nlp35or7af5hb9h2k3pm.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'KUQKlVTcgToIclWLGUstZyrP'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
