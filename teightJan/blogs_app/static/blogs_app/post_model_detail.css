@@ -76,12 +76,9 @@ i {
 #like {
     display: inline;
 }
-#liked, #unlike {
-    display: none;
-}
-<<<<<<< HEAD
 textarea {
   white-space: pre-wrap;
 }
-=======
->>>>>>> e2a7d4736ca1b66fb4320489bbcb94f7f325937c
+.liked-by {
+  display: none;
+}

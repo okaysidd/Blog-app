@@ -8,6 +8,7 @@
 - [x] Users can keep their posts in drafts and publish later
 - [x] Users can view the edit history of posts
 - [x] Users can find posts and users from the search bar*
+- [ ] **!important** : Compel users who have signed in using Google account to complete their profile before doing anything else, but can see posts
 - [ ] Users can follow other users and can only see post from the people they follow
 - [ ] Upvotes or something of the sort for posts*
 - [ ] Twitter trending topics*

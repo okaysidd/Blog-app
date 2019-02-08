@@ -19,6 +19,7 @@ class Post_model(models.Model):
     modified_on = models.DateTimeField(blank=True, null=True)
     published_on = models.DateTimeField(blank=True, null=True)
     likes = models.PositiveIntegerField(default=0)
+    liked_by = models.ManyToManyField(Author_model, related_name="liked_by", blank=True, null=True, default=[])
 
     def get_absolute_url(self):
         return reverse('blogs:post', kwargs={'pk':self.pk})
@@ -27,9 +28,16 @@ class Post_model(models.Model):
         self.published_on = timezone.now()
         self.save()
 
-    def like_post(self):
-        self.likes += 1
-        self.save()
+    def like_post(self, liked_by_user):
+        if Author_model.objects.filter(author_name=liked_by_user):
+            if Author_model.objects.filter(author_name=liked_by_user)[0] not in self.liked_by.all():
+                self.liked_by.add(Author_model.objects.filter(author_name=liked_by_user)[0])
+                self.likes += 1
+                self.save()
+            else:
+                self.liked_by.remove(Author_model.objects.filter(author_name=liked_by_user)[0])
+                self.likes -= 1
+                self.save()
 
     def __str__(self):
         return self.title_original

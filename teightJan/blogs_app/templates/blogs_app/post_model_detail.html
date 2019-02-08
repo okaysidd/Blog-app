@@ -106,13 +106,28 @@
     <p><span class="postarea">{{ post_model.body_original|linebreaks }}</span></p>
     {% if post_model.published_on %}
     <small>{{ comments|length }} comment(s)</small>&nbsp
-    <small>{{ post_model.likes }} likes</small>
-    <br><br>
+    <a class="black-href" href="#"><small class="show-likes">{{ post_model.likes }} likes</small></a>
+    <div class="liked-by">
+      {% if likes_by_users %}
+      <hr>
+      <small>Liked by: </small>
+      {% for likes_by_user in likes_by_users %}
+      <a href="{% url 'users:view-profile' pk=likes_by_user.author_name.pk %}">
+        <small>{{ likes_by_user.author_name }}</small>
+      </a>|
+      {% endfor %}
+      <hr>
+      {% endif %}
+    </div>
+    <br>
+    <br>
     <div class="row">
         <div class="col-md-1">
-            <a id="liked" class="red-heart" href="#"><i class="ml-3 liked-btn fa-2x fas fa-heart"></i></a>
+          {% if liked_by_user == False %}
             <a id="like" class="black-href" href="{% url 'blogs:like-post' pk=post_model.pk %}"><i class="ml-3 like-btn fa-2x far fa-heart"></i></a>
-            <!-- <a id="unlike" class="red-heart" href="#"><i class="ml-3 like-break-btn fa-2x fas fa-heart-broken"></i></a> -->
+          {% else %}
+            <a id="liked" class="black-href" href="{% url 'blogs:like-post' pk=post_model.pk %}"><i class="ml-3 like-btn fa-2x fas fa-heart"></i></a>
+          {% endif %}
         </div>
         <div class="col-md-2">
             <input id="comments-btn" onclick="display_comments()" type="submit" class="mb-3 btn btn-primary btn-sm" value="Comment">
@@ -168,14 +183,13 @@
         //     $('#unlike').css("display", "none");
         //     $('#liked').css("display", "inline");
         // });
-        $("#like").click(function(){
-            $('#like').css("display", "none");
-            $('#liked').css("display", "inline");
-            });
-        $("#liked").click(function(){
-            $('#liked').css("display", "none");
-            $('#like').css("display", "inline");
+        $(".show-likes").click(function(){
+            $('.liked-by').toggle();
         });
+        // $("#liked").click(function(){
+        //     $('#liked').css("display", "none");
+        //     $('#like').css("display", "inline");
+        // });
     });
   if ({{ comments|length }}) {
       document.getElementById('comments-all').style.display = "none";

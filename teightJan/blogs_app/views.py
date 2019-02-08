@@ -75,7 +75,19 @@ class DetailPostView(LoginRequiredMixin, DetailView):
         author = Author_model.objects.filter(post_model=get_object_or_404(Post_model, id=self.kwargs['pk']))[0].author_name
         context['title'] = 'Post by ' + str(author)
         comments = Comment_model.objects.filter(post=self.kwargs['pk']).order_by('-created_on')
+        this_post = post_model=get_object_or_404(Post_model, id=self.kwargs['pk'])
+        # print('---------printing------  {}'.format(this_post.liked_by.all()))
+        # print('---------printing------  {}'.format(self.request.user))
+        likes_by_users = this_post.liked_by.all()
+        print('----------{}'.format(likes_by_users))
+        if Author_model.objects.filter(author_name=self.request.user)[0] in this_post.liked_by.all():
+            liked_by_user = True
+        else:
+            liked_by_user = False
         context['comments'] = comments
+        context['liked_by_user'] = liked_by_user
+        if likes_by_users.count() > 0:
+            context['likes_by_users'] = likes_by_users
         return context
 
 
@@ -172,5 +184,6 @@ def searchResults(request):
 
 def like_post(request, pk):
     post = get_object_or_404(Post_model, pk=pk)
-    post.like_post()
+    liked_by_user = request.user
+    post.like_post(liked_by_user)
     return redirect('blogs:post', pk=pk)
