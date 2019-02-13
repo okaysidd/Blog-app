@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import profile, DetailProfileView, updateProfile, profileView, create_social_profile
+from .views import profile, DetailProfileView, updateProfile, profileView, create_social_profile, follow_user
 
 
 app_name = "users"
@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/<int:pk>/', profileView, name="view-profile"),
     path('profile/edit/', updateProfile, name="edit-profile"),
     path('profile/edit/social/', create_social_profile, name="edit-social-profile"),
+    path('profile/<int:pk>/follow/', follow_user, name="follow-profile"),
 ]
