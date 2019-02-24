@@ -12,3 +12,4 @@
 - [ ] **!important** : Compel users who have signed in using Google account to complete their profile before doing anything else, but can see posts
 - [ ] Users can follow other users and can only see post from the people they follow
 - [ ] Users can follow other users and can only see post from the people they follow, if they so choose
+- [ ] ![Login page](https://github.com/okaysidd/Blog-app/blob/master/Screenshots/1.JPG)
