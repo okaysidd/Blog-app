@@ -11,6 +11,20 @@
             <input type="submit" class="search-button btn btn-info" value="Search">
         </form>
     </div>
+  <div class="filter-posts">
+    Filter:
+    {% if following %}
+      <select class="edit-post" onchange="location = this.value;">
+        <option value="{% url 'blogs:all-following-post' %}">People I follow</option>
+        <option value="{% url 'blogs:all-post' %}">All posts</option>
+      </select>
+    {% else %}
+      <select class="edit-post" onchange="location = this.value;">
+        <option value="{% url 'blogs:all-post' %}">All posts</option>
+        <option value="{% url 'blogs:all-following-post' %}">People I follow</option>
+      </select>
+    {% endif %}
+  </div><br>
   {% for post in post_model_list %}
     <div class="post-complete">
       <br>
@@ -21,7 +35,6 @@
               <small>{{ post.created_on }}</small>
           </div>
           <div class="col-md-4">
-              <!-- <p><span class="author-name"><a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">{{ post.author|title }}</a></span> -->
               <span class="author-name">
                   <a class="black-href" href="{% url 'users:view-profile' pk=post.author.pk %}">
                       <small>

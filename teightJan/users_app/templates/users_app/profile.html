@@ -22,12 +22,24 @@
                   {% csrf_token %}
                   <input type="submit" class="logout-btn btn btn-warning" value="Logout">
               </form>
+            {% else %}
+              {% if followed %}
+                <form class="form-group" action="{% url 'users:follow-profile' pk=view_profile.author_name.pk %}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" class="logout-btn btn btn-danger" value="Unfollow">
+                </form>
+              {% else %}
+                <form class="form-group" action="{% url 'users:follow-profile' pk=view_profile.author_name.pk %}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" class="logout-btn btn btn-info" value="Follow">
+                </form>
+              {% endif %}
             {% endif %}
           </div>
       </div>
     <hr class="my-2">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
           {% if view_profile.author_name.first_name %}
             {% if view_profile.author_name.first_name %}
               <p><span class="profile-label">name: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.author_name.first_name }} {{ view_profile.author_name.last_name }}</span></p>
@@ -38,8 +50,20 @@
               <p><span class="profile-label">github profile: </span>&nbsp&nbsp<span class="profile-info">{{ view_profile.git }}</p>
           {% endif %}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <img class="profile-pic" src="{{ view_profile.profile_pic.url }}" alt="sorry no pic found"/>
+        </div>
+        <div style="text-align:left;" class="col-md-3">
+          {% if view_profile.author_name == user %}
+            {% if people_followed %}
+              People I follow ({{ people_followed|length }}): <br>
+              {% for people in people_followed %}
+                <a href="{% url 'users:view-profile' pk=people.pk %}">{{ people.author_name }}</a><br>
+              {% endfor %}
+            {% else %}
+              You don't follow any one.
+            {% endif %}
+          {% endif %}
         </div>
       </div>
   </div>

@@ -56,10 +56,32 @@ class ListPostView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Let\'s Blog'
+        context['following'] = False
         return context
 
     def get_queryset(self):
         queryset = Post_model.objects.filter(published_on__lte=timezone.now()).order_by('-published_on')
+        return queryset
+
+class ListPostViewFollowed(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+    model = Post_model
+    fields = ['title_original', 'body_original', 'author']
+
+    ordering = ['-published_on']
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Let\'s Blog'
+        context['following'] = True
+        return context
+
+    def get_queryset(self):
+        followed_authors = Author_model.objects.filter(author_name=self.request.user)[0].following.all()
+        queryset = Post_model.objects.filter(published_on__lte=timezone.now(),author__in=followed_authors).order_by('-published_on')
         return queryset
 
 
@@ -76,8 +98,6 @@ class DetailPostView(LoginRequiredMixin, DetailView):
         context['title'] = 'Post by ' + str(author)
         comments = Comment_model.objects.filter(post=self.kwargs['pk']).order_by('-created_on')
         this_post = post_model=get_object_or_404(Post_model, id=self.kwargs['pk'])
-        # print('---------printing------  {}'.format(this_post.liked_by.all()))
-        # print('---------printing------  {}'.format(self.request.user))
         likes_by_users = this_post.liked_by.all()
         print('----------{}'.format(likes_by_users))
         if Author_model.objects.filter(author_name=self.request.user)[0] in this_post.liked_by.all():

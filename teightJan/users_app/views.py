@@ -77,10 +77,22 @@ def profileView(request, pk):
         profile = Author_model.objects.filter(author_name=get_object_or_404(User, id=pk))[0]
         posts_to_publish = Post_model.objects.filter(author=profile, published_on=None)
         posts_by_author = Post_model.objects.filter(author=profile, published_on__lte=timezone.now())
+        if Author_model.objects.filter(author_name=request.user):
+            if profile in Author_model.objects.filter(author_name=request.user)[0].following.all():
+                followed = True
+            else:
+                followed = False
+        else:
+            followed = False
         context['posts_by_author'] = posts_by_author
         context['posts_to_publish'] = posts_to_publish
         context['title'] = profile
         context['view_profile'] = profile
+        context['followed'] = followed
+        context['people_followed'] = Author_model.objects.filter(author_name=request.user)[0].following.all()
+        # context['followed_by'] = Author_model.objects.filter(following=request.user).all()
+        current_user = Author_model.objects.filter(author_name=request.user)[0]
+        print('-----------------{}'.format(Author_model.objects.filter(following=current_user).all()))
 
         return render(request, 'users_app/profile.html', context=context)
     else:
@@ -155,3 +167,10 @@ def create_social_profile(request):
         author.save()
 
         return redirect('users:view-profile', pk=request.user.pk)
+
+
+def follow_user(request, pk):
+    author = Author_model.objects.filter(author_name=request.user)[0]
+    followed_author = Author_model.objects.filter(author_name=pk)[0]
+    author.follow_user(followed_author)
+    return redirect('users:view-profile', pk=pk)
