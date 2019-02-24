@@ -1,10 +1,32 @@
 # Blog-app
+
+#### Packages used:
+* argon2-cffi==18.3.0
+* Django==2.1.3
+* django-debug-toolbar==1.11
+* django-phonenumber-field==2.1.0
+* Pillow==5.3.0
+* python-dateutil==2.7.5
+* requests-oauthlib==1.2.0
+* social-auth-app-django==3.1.0
+* social-auth-core==3.0.0
+
+#### How to run:
+* Clone the repository.
+* Make sure all the necessary modules are installed.
+* Navigate to the 'teight' folder.
+* Run the following in the terminal.
+```
+python manage.py runserver
+```
+
+#### Target / Goals:
+
 - [x] Users can upload and view profile pictures next to the blogs
 - [x] Users can edit their User and Author detail all in one go
 - [x] All posts by user in the user profile
 - [x] Users can add comments to posts
 - [x] Pagination for posts
-- [x] Footer
 - [x] Users can keep their posts in drafts and publish later
 - [x] Users can view the edit history of posts
 - [x] Users can find posts and users from the search bar*
